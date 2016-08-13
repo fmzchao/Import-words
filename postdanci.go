@@ -12,8 +12,8 @@ func main() {
 	str = strings.Replace(str, ".", "", -1) //删除点
 	str = strings.Replace(str, ",", "", -1) //删除逗号
 
-	all_danci := strings.Split(str, " ")
-	number := len(all_danci) //统计单词数
+	all_danci := strings.Split(str, " ") //分割成数组
+	number := len(all_danci)             //统计单词数
 
 	for i := 0; i < number; i++ { //循环单词
 		danci := all_danci[i]
