@@ -21,10 +21,10 @@ func main() {
 		if len(danci) > 2 { //单词大于两位的才进来
 			fmt.Fprintf(os.Stdout, "%d %v\n", i, danci)
 			//
-			fmt.Print("....")
 
 		}
 
 	}
+	fmt.Print("End ....\n\n")
 
 }
