@@ -17,8 +17,9 @@ func main() {
 
 	for i := 0; i < number; i++ {
 		danci := all_danci[i]
-		if len(danci) > 2 {
+		if len(danci) > 2 { //单词大于两位的才进来
 			fmt.Fprintf(os.Stdout, "%d %v\n", i, danci)
+			//
 		}
 
 	}
