@@ -15,7 +15,7 @@ func main() {
 	all_danci := strings.Split(str, " ")
 	number := len(all_danci) //统计单词数
 
-	for i := 0; i < number; i++ {
+	for i := 0; i < number; i++ { //循环单词
 		danci := all_danci[i]
 		if len(danci) > 2 { //单词大于两位的才进来
 			fmt.Fprintf(os.Stdout, "%d %v\n", i, danci)
