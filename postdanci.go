@@ -9,6 +9,7 @@ import (
 func main() {
 	str := `I've been working on this framework for about 7 months. I've worked really hard to make it powerful, yet accessible. I set out to launch with documentation as good as CodeIgniter from day one, and I think we did. The syntax is intuitive and expressive.
     `
+	str = strings.ToLower(str)              //转小写
 	str = strings.Replace(str, ".", "", -1) //删除点
 	str = strings.Replace(str, ",", "", -1) //删除逗号
 
