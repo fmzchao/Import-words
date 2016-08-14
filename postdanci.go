@@ -12,6 +12,7 @@ import (
 	// "net/http/cookiejar"
 	// "net/url"
 	//"os"
+	//"request"
 )
 
 const (
@@ -121,6 +122,12 @@ func HandingText(str string) []string {
 	return ret
 }
 
+//获取登录页面的cookie
+func getLoginPageCookies() (strCookies string) {
+	//strLoginUrl := `http://weibo.com/login.php`
+	_, strCookies = DoRequest(`GET`, login_url, ``, ``, ``, nil)
+	return
+}
 func main() {
 	str := `
 GitHub Terms of Service
@@ -132,5 +139,7 @@ By using the GitHub.com web site ("Service"), or any services of GitHub, Inc ("G
 	fmt.Println("单词总数：", len(charlotteWeb))
 	fmt.Print("End ....\n\n")
 	fmt.Println("去重用时:", time.Now().Sub(t2))
-
+	//获取登录页面cookies
+	cookies := getLoginPageCookies()
+	fmt.Print(cookies)
 }
