@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/mozillazg/request"
 	"sort"
 	"strings"
 	"time"
@@ -142,5 +143,9 @@ By using the GitHub.com web site ("Service"), or any services of GitHub, Inc ("G
 	//获取登录页面cookies
 	cookies := getLoginPageCookies()
 	fmt.Print(cookies)
-
+	c := &http.Client{}
+	req := request.NewRequest(c)
+	resp, err := req.Get("http://httpbin.org/get")
+	defer resp.Body.Close() // **Don't forget close the response body**
+	j, err := resp.Json()
 }
