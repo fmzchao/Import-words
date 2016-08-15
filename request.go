@@ -27,7 +27,7 @@ import (
  * @return string
  */
 func DoRequest(method, reqUrl, params, cookies, domain string, mapHeader map[string]string) (respBody, respCookies string) {
-	return organizeRequest(method, reqUrl, params, cookies, domain, mapHeader, true, tls.VersionTLS10, tls.VersionTLS12)
+	return organizeRequest(method, reqUrl, params, cookies, domain, mapHeader, false, tls.VersionTLS10, tls.VersionTLS12)
 }
 
 /*
@@ -79,8 +79,8 @@ func organizeRequest(method, reqUrl, params, cookies, domain string, mapHeader m
 				MinVersion:         mintls,
 				MaxVersion:         maxtls,
 			},
-			DisableCompression:true,
-			Proxy: http.ProxyURL(proxyUrl),
+			DisableCompression: true,
+			Proxy:              http.ProxyURL(proxyUrl),
 		}
 	} else {
 		transport = &http.Transport{}
