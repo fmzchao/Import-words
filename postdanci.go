@@ -142,4 +142,5 @@ By using the GitHub.com web site ("Service"), or any services of GitHub, Inc ("G
 	//获取登录页面cookies
 	cookies := getLoginPageCookies()
 	fmt.Print(cookies)
+
 }
