@@ -17,7 +17,6 @@ import (
 )
 
 const (
-	//getUrl         string = "http://jwc.sut.edu.cn/ACTIONQUERYSTUDENTPIC.APPPROCESS?ByStudentNO=null"
 	login_url      string = "http://langeasy.com.cn/denglu.action"
 	post_login_url string = "http://langeasy.com.cn/login.action"
 	uname          string = "root@7jdg.com"
@@ -83,7 +82,6 @@ func post_danci(danci, jieshi string, mycookie []*http.Cookie) string {
 }
 
 func geturl(myurl string, mycookie []*http.Cookie) (result string) {
-	//var loadLexisList = "http://langeasy.com.cn/loadLexisList.action?strict=1&word=another"
 	showResponse, err := anirip.GetHTTPResponse("GET",
 		myurl,
 		nil,
@@ -135,8 +133,6 @@ func getNewWord(danci string, mycookie []*http.Cookie) bool {
 }
 
 func tianjia_danci(danci_str string, cookie []*http.Cookie) bool {
-
-	//重写
 	//logs.Logger.Info("查看 " + danci_str + " 是否在单词本")
 	var isnewword = getNewWord(danci_str, cookie)
 	if isnewword == false { //单词本里没有
@@ -283,10 +279,6 @@ Read the full post at darknet.org.uk
 	charlotteWeb := HandingText(str)
 	//fmt.Println(charlotteWeb)
 	logs.Logger.Info("单词总数：", len(charlotteWeb))
-	//fmt.Print("End ....\n\n")
-	//fmt.Println("去重用时:", time.Now().Sub(t2))
-	//获取登录页面cookies
-	//var danci_str = "logger"
 	var cookie = GetCookies()
 	//fmt.Println(cookie)
 
