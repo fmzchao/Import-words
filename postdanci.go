@@ -26,15 +26,15 @@ const (
 
 func GetCookies() (result []*http.Cookie) {
 	formData := url.Values{
-		"name":   {"root@7jdg.com"},
-		"passwd": {"fuckyou"},
+		"name":   {uname},
+		"passwd": {pwd},
 	}
 	loginReqHeaders := http.Header{}
 	loginReqHeaders.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:47.0) Gecko/20100101 Firefox/47.0")
-	loginReqHeaders.Add("referer", "http://langeasy.com.cn/denglu.action")
+	loginReqHeaders.Add("referer", login_url)
 	loginReqHeaders.Add("content-type", "application/x-www-form-urlencoded")
 	loginResponse, err := anirip.GetHTTPResponse("POST",
-		"http://langeasy.com.cn/login.action",
+		post_login_url,
 		bytes.NewBufferString(formData.Encode()),
 		loginReqHeaders,
 		nil)
@@ -125,12 +125,6 @@ func loadLexisList(danci string, mycookie []*http.Cookie) (result string) {
 }
 func getNewWord(danci string, mycookie []*http.Cookie) bool {
 	respBody := geturl("http://langeasy.com.cn/getNewWord.action?word="+danci+"&infoidx=100", mycookie)
-	//respBody = gojson.Json(respBody).Getindex(1).Getindex(1).Get("id").Tostring()
-	// if gojson.Json(respBody).Getindex(1).Getindex(1).Get("id").Tostring() == "" {
-	// 	return false
-	// }
-
-	//fmt.Println(respBody)
 
 	if strings.Contains(respBody, "updatetime") {
 		return true
@@ -287,18 +281,18 @@ Read the full post at darknet.org.uk
     `
 	t2 := time.Now()
 	charlotteWeb := HandingText(str)
-	fmt.Println(charlotteWeb)
-	fmt.Println("单词总数：", len(charlotteWeb))
-	fmt.Print("End ....\n\n")
-	fmt.Println("去重用时:", time.Now().Sub(t2))
+	//fmt.Println(charlotteWeb)
+	logs.Logger.Info("单词总数：", len(charlotteWeb))
+	//fmt.Print("End ....\n\n")
+	//fmt.Println("去重用时:", time.Now().Sub(t2))
 	//获取登录页面cookies
 	//var danci_str = "logger"
 	var cookie = GetCookies()
-	fmt.Println(cookie)
+	//fmt.Println(cookie)
 
 	for i := 0; i < len(charlotteWeb); i++ {
 		//logs.Logger.Info(charlotteWeb[i])
 		tianjia_danci(charlotteWeb[i], cookie)
 	}
-
+	logs.Logger.Info("处理用时:", time.Now().Sub(t2))
 }
