@@ -3,12 +3,10 @@
 package main
 
 import (
-	"./utils/logs"
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/sdwolfe32/anirip/anirip"
-	"github.com/widuu/gojson"
+	//"html"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -16,6 +14,10 @@ import (
 	"strings"
 	"time"
 	"unicode"
+
+	"./utils/logs"
+	"github.com/sdwolfe32/anirip/anirip"
+	"github.com/widuu/gojson"
 )
 
 const (
@@ -24,6 +26,8 @@ const (
 	uname          string = "root@7jdg.com"
 	pwd            string = "fuckyou"
 )
+
+var cookie = GetCookies()
 
 func GetCookies() (result []*http.Cookie) {
 	formData := url.Values{
@@ -76,9 +80,9 @@ func post_danci(danci, jieshi string, mycookie []*http.Cookie) string {
 	var rBody = string(body)
 	//fmt.Println(rBody)
 	if rBody == "null" {
-		return danci + "单词添加成功"
+		return danci + " 单词添加成功"
 	} else {
-		return danci + "单词添加失败"
+		return danci + " 单词添加失败"
 	}
 
 }
@@ -223,31 +227,53 @@ func RemoveDuplicatesAndEmpty(a []string) (ret []string) {
 
 func HandingText(str string) []string {
 	var ret []string
-	str = strings.ToLower(str)                      //转小写
-	str = strings.Replace(str, ".", " ", -1)        //删除点
-	str = strings.Replace(str, ",", " ", -1)        //删除逗号
-	str = strings.Replace(str, "\n", " ", -1)       //删除换行
-	str = strings.Replace(str, "(", " ", -1)        //删除换行
-	str = strings.Replace(str, ")", " ", -1)        //删除换行
-	str = strings.Replace(str, ";", " ", -1)        //删除换行
-	str = strings.Replace(str, "\"", " ", -1)       //删除换行
-	str = strings.Replace(str, "/", " ", -1)        //删除换行
-	str = strings.Replace(str, "'", " ", -1)        //删除换行
-	str = strings.Replace(str, "*", " ", -1)        //删除换行
-	str = strings.Replace(str, "-", " ", -1)        //删除换行
-	str = strings.Replace(str, "=", " ", -1)        //删除换行
-	str = strings.Replace(str, ":", " ", -1)        //删除换行
-	str = strings.Replace(str, "[", " ", -1)        //删除换行
-	str = strings.Replace(str, "]", " ", -1)        //删除换行
-	str = strings.Replace(str, "?", " ", -1)        //删除换行
-	str = strings.Replace(str, "‘", " ", -1)        //删除换行
-	str = strings.Replace(str, "’", " ", -1)        //删除换行
-	str = strings.Replace(str, "“", " ", -1)        //删除换行
-	str = strings.Replace(str, "”", " ", -1)        //删除换行
-	str = strings.Replace(str, "!", " ", -1)        //删除换行
-	str = strings.Replace(str, "_", " ", -1)        //删除换行
-	str = strings.Replace(str, "https://", " ", -1) //删除换行
-	str = strings.Replace(str, "http://", " ", -1)  //删除换行
+	str = strings.ToLower(str) //转小写
+	//str = html.UnescapeString(str)
+	str = strings.Replace(str, ".", " ", -1)  //删除点
+	str = strings.Replace(str, ",", " ", -1)  //删除逗号
+	str = strings.Replace(str, "\n", " ", -1) //删除换行
+	str = strings.Replace(str, "\t", " ", -1) //删除换行
+	str = strings.Replace(str, "(", " ", -1)
+	str = strings.Replace(str, ")", " ", -1)
+	str = strings.Replace(str, "<", " ", -1)
+	str = strings.Replace(str, ">", " ", -1)
+	str = strings.Replace(str, ";", " ", -1)
+	str = strings.Replace(str, "\"", " ", -1)
+	str = strings.Replace(str, "/", " ", -1)
+	str = strings.Replace(str, "'", " ", -1)
+	str = strings.Replace(str, "*", " ", -1)
+	str = strings.Replace(str, "-", " ", -1)
+	str = strings.Replace(str, "+", " ", -1)
+	str = strings.Replace(str, "=", " ", -1)
+	str = strings.Replace(str, ":", " ", -1)
+	str = strings.Replace(str, "[", " ", -1)
+	str = strings.Replace(str, "]", " ", -1)
+	str = strings.Replace(str, "{", " ", -1)
+	str = strings.Replace(str, "}", " ", -1)
+	str = strings.Replace(str, "?", " ", -1)
+	str = strings.Replace(str, "‘", " ", -1)
+	str = strings.Replace(str, "’", " ", -1)
+	str = strings.Replace(str, "“", " ", -1)
+	str = strings.Replace(str, "”", " ", -1)
+	str = strings.Replace(str, "!", " ", -1)
+	str = strings.Replace(str, "_", " ", -1)
+	str = strings.Replace(str, "#", " ", -1)
+	str = strings.Replace(str, "|", " ", -1)
+	str = strings.Replace(str, "&", " ", -1)
+	str = strings.Replace(str, "%", " ", -1)
+	str = strings.Replace(str, "$", " ", -1)
+	str = strings.Replace(str, "@", " ", -1)
+	str = strings.Replace(str, "https://", " ", -1)
+	str = strings.Replace(str, "http://", " ", -1)
+	// rep := strings.NewReplacer(
+	// 	".", " ", ",", " ", "\n", " ", "\t", " ",
+	// 	"(", " ", ")", " ", ";", " ", "\"", " ",
+	// 	"/", " ", "'", " ", "*", " ", "-", " ",
+	// 	"+", " ", "=", " ", ":", " ", "[", " ",
+	// 	"]", " ", "?", " ", "‘", " ", "’", " ",
+	// 	"“", " ", "”", " ", "!", " ", "_", " ",
+	// 	"https://", " ","http://", " "
+	// )
 
 	all_danci := strings.Split(str, " ") //分割成数组
 	//fmt.Println(all_danci)
@@ -260,7 +286,7 @@ func HandingText(str string) []string {
 
 	for i := 0; i < number; i++ { //循环单词
 		danci := all_danci[i]
-		if len(danci) > 2 && !strings.Contains(danci, "@") && !isNumber(danci) { //单词大于两位的才进来
+		if len(danci) > 2 && !isNumber(danci) { //单词大于两位的才进来
 			//fmt.Fprintf(os.Stdout, "%d %v\n", i, danci)
 			ret = append(ret, danci)
 
@@ -269,24 +295,57 @@ func HandingText(str string) []string {
 	}
 	return ret
 }
-
-func main() {
-	str := `
-Pompem is an open source exploit & vulnerability finder tool, designed to automate the search for Exploits and Vulnerability in the most important databases. Developed in Python, has a system of advanced search, that help the work of pen-testers and ethical hackers. In the current version, it performs searches in PacketStorm security,...
-
-Read the full post at darknet.org.uk
-
-    `
-	t2 := time.Now()
+func press_word(str string) []string {
 	charlotteWeb := HandingText(str)
 	//fmt.Println(charlotteWeb)
-	logs.Logger.Info("单词总数：", len(charlotteWeb))
-	var cookie = GetCookies()
-	//fmt.Println(cookie)
+	//logs.Logger.Info("单词总数：", len(charlotteWeb))
+	return charlotteWeb
 
+}
+
+func post_all_word(charlotteWeb []string) int {
 	for i := 0; i < len(charlotteWeb); i++ {
 		//logs.Logger.Info(charlotteWeb[i])
 		tianjia_danci(charlotteWeb[i], cookie)
 	}
+	return len(charlotteWeb)
+}
+
+func main() {
+	str := `
+
+	<?php
+	/**
+	 * Laravel - A PHP Framework For Web Artisans
+	 *
+	 * @package  Laravel
+	 * @author   Taylor Otwell <taylor@laravel.com>
+	 */
+	$uri = urldecode(
+	    parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+	);
+	// This file allows us to emulate Apache's "mod_rewrite" functionality from the
+	// built-in PHP web server. This provides a convenient way to test a Laravel
+	// application without having installed a "real" web server software here.
+	if ($uri !== '/' && file_exists(__DIR__.'/public'.$uri)) {
+	    return false;
+	}
+	require_once __DIR__.'/public/index.php';
+
+
+    `
+
+	//fmt.Println(type(str))
+	t2 := time.Now()
+
+	words := press_word(str)
+	//words = press_word(str2)
+	post_all_word(words)
+	//charlotteWeb := HandingText(str)
+	//fmt.Println(charlotteWeb)
+	//logs.Logger.Info("单词总数：", len(charlotteWeb))
+	//var cookie = GetCookies()
+	//
+	logs.Logger.Info("单词总数：", len(words))
 	logs.Logger.Info("处理用时:", time.Now().Sub(t2))
 }
