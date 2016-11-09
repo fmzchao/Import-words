@@ -311,41 +311,104 @@ func post_all_word(charlotteWeb []string) int {
 	return len(charlotteWeb)
 }
 
-func main() {
-	str := `
-
-	<?php
-	/**
-	 * Laravel - A PHP Framework For Web Artisans
-	 *
-	 * @package  Laravel
-	 * @author   Taylor Otwell <taylor@laravel.com>
-	 */
-	$uri = urldecode(
-	    parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
-	);
-	// This file allows us to emulate Apache's "mod_rewrite" functionality from the
-	// built-in PHP web server. This provides a convenient way to test a Laravel
-	// application without having installed a "real" web server software here.
-	if ($uri !== '/' && file_exists(__DIR__.'/public'.$uri)) {
-	    return false;
+func GetOldWord() []string {
+	respBody := geturl("http://langeasy.com.cn/getUserNewWord.action?page=0&time=1478698535196", cookie)
+	//println(respBody)
+	var ret_str []string
+	//jsons := gojson.Json(respBody).Get("wordlist").Getindex(1).Get("word").Tostring()
+	//fmt.Println(jsons)
+	for index := 1; index < 25; index++ {
+		word := gojson.Json(respBody).Get("wordlist").Getindex(index).Get("word").Tostring()
+		//fmt.Println(index, gojson.Json(respBody).Get("wordlist").Getindex(index).Get("word").Tostring())
+		ret_str = append(ret_str, word)
 	}
-	require_once __DIR__.'/public/index.php';
+	// for k, v := range jsons {
+	// 	fmt.Printf("k=%v, v=%v\n", k, v)
+	// }
+	//fmt.Println(jsons)
+	return ret_str
+}
+func deleteNewWord(str []string) {
+	tmpstr := str
+	strs := strings.Join(tmpstr, ",")
+	//fmt.Println(strs)
+	//url.QueryUnescape(s)
+	formData := "{\"newwordlist\":\"" + strs + "\"}"
+	fmt.Println(formData)
+	PostReqHeaders := http.Header{}
+	PostReqHeaders.Add("Accept", "application/json, text/plain, */*")
+	PostReqHeaders.Add("Origin", "http://langeasy.com.cn")
+	PostReqHeaders.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:47.0) Gecko/20100101 Firefox/47.0")
+	PostReqHeaders.Add("content-type", "application/json;charset=UTF-8")
+	PostReqHeaders.Add("DNT", "1")
+	PostReqHeaders.Add("Referer", "http://langeasy.com.cn/newword.action")
+	PostResponse, err := anirip.GetHTTPResponse("POST",
+		"http://langeasy.com.cn/deleteNewWord.action",
+		bytes.NewBufferString(formData),
+		PostReqHeaders,
+		cookie)
+	if err != nil {
+		fmt.Println("[anirip] GetHTTPResponse Error ...")
+		//return
+	}
+	defer PostResponse.Body.Close()
+	body, err := ioutil.ReadAll(PostResponse.Body)
+	if err != nil {
+		fmt.Println("ReadAll Response Err:", err)
+		//return
+	}
+	var rBody = string(body)
+	fmt.Println(rBody)
 
+}
 
-    `
+func main() {
+	// str := `
+	//
+	// <?php
+	// /**
+	//  * Laravel - A PHP Framework For Web Artisans
+	//  *
+	//  * @package  Laravel
+	//  * @author   Taylor Otwell <taylor@laravel.com>
+	//  */
+	// $uri = urldecode(
+	//     parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+	// );
+	// // This file allows us to emulate Apache's "mod_rewrite" functionality from the
+	// // built-in PHP web server. This provides a convenient way to test a Laravel
+	// // application without having installed a "real" web server software here.
+	// if ($uri !== '/' && file_exists(__DIR__.'/public'.$uri)) {
+	//     return false;
+	// }
+	// require_once __DIR__.'/public/index.php';
+	//
+	//
+	// `
 
 	//fmt.Println(type(str))
 	t2 := time.Now()
+	showResponse, err := anirip.GetHTTPResponse("GET",
+		"http://www.baidu.com",
+		nil,
+		nil,
+		nil)
+	fmt.Println(showResponse, err)
 
-	words := press_word(str)
+	//words := press_word(str)
 	//words = press_word(str2)
-	post_all_word(words)
+	//post_all_word(words)
 	//charlotteWeb := HandingText(str)
 	//fmt.Println(charlotteWeb)
 	//logs.Logger.Info("单词总数：", len(charlotteWeb))
 	//var cookie = GetCookies()
 	//
-	logs.Logger.Info("单词总数：", len(words))
+	//logs.Logger.Info("单词总数：", len(words))
+
+	//all_word := GetOldWord()
+	// fmt.Println(all_word)
+
+	//deleteNewWord(all_word)
 	logs.Logger.Info("处理用时:", time.Now().Sub(t2))
+
 }
