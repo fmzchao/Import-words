@@ -390,9 +390,7 @@ func main() {
 	t2 := time.Now()
 	showResponse, err := anirip.GetHTTPResponse("GET",
 		"http://www.baidu.com",
-		nil,
-		nil,
-		nil)
+		nil, nil, nil)
 	fmt.Println(showResponse, err)
 
 	//words := press_word(str)
