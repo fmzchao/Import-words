@@ -1,3 +1,5 @@
+//export GOPATH=$HOME/go_src
+
 package main
 
 import (
