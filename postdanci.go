@@ -403,7 +403,7 @@ func main() {
 	//
 	//logs.Logger.Info("单词总数：", len(words))
 
-	//all_word := GetOldWord()
+	all_word := GetOldWord()
 	// fmt.Println(all_word)
 
 	//deleteNewWord(all_word)
