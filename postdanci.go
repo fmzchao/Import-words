@@ -334,7 +334,7 @@ func deleteNewWord(str []string) {
 	//fmt.Println(strs)
 	//url.QueryUnescape(s)
 	formData := "{\"newwordlist\":\"" + strs + "\"}"
-	fmt.Println(formData)
+	//fmt.Println(formData)
 	PostReqHeaders := http.Header{}
 	PostReqHeaders.Add("Accept", "application/json, text/plain, */*")
 	PostReqHeaders.Add("Origin", "http://langeasy.com.cn")
@@ -363,50 +363,9 @@ func deleteNewWord(str []string) {
 }
 
 func main() {
-	// str := `
-	//
-	// <?php
-	// /**
-	//  * Laravel - A PHP Framework For Web Artisans
-	//  *
-	//  * @package  Laravel
-	//  * @author   Taylor Otwell <taylor@laravel.com>
-	//  */
-	// $uri = urldecode(
-	//     parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
-	// );
-	// // This file allows us to emulate Apache's "mod_rewrite" functionality from the
-	// // built-in PHP web server. This provides a convenient way to test a Laravel
-	// // application without having installed a "real" web server software here.
-	// if ($uri !== '/' && file_exists(__DIR__.'/public'.$uri)) {
-	//     return false;
-	// }
-	// require_once __DIR__.'/public/index.php';
-	//
-	//
-	// `
 
-	//fmt.Println(type(str))
 	t2 := time.Now()
-	showResponse, err := anirip.GetHTTPResponse("GET",
-		"http://www.baidu.com",
-		nil, nil, nil)
-	fmt.Println(showResponse, err)
 
-	//words := press_word(str)
-	//words = press_word(str2)
-	//post_all_word(words)
-	//charlotteWeb := HandingText(str)
-	//fmt.Println(charlotteWeb)
-	//logs.Logger.Info("单词总数：", len(charlotteWeb))
-	//var cookie = GetCookies()
-	//
-	//logs.Logger.Info("单词总数：", len(words))
-
-	all_word := GetOldWord()
-	// fmt.Println(all_word)
-
-	//deleteNewWord(all_word)
 	logs.Logger.Info("处理用时:", time.Now().Sub(t2))
 
 }
