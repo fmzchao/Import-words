@@ -367,5 +367,6 @@ func main() {
 	t2 := time.Now()
 
 	logs.Logger.Info("处理用时:", time.Now().Sub(t2))
+	fmt.Println("a")
 
 }
